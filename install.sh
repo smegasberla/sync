@@ -3,7 +3,7 @@ set -e
 
 echo "Building Folder Sync Tool..."
 
-Compile using C++17 standard
+# Compile using C++17 standard
 
 g++ -std=c++17 -O2 main.cpp -o sync_tool
 
