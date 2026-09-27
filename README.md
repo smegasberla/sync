@@ -32,7 +32,7 @@ To build the tool from source, ensure you have a C++ compiler supporting **C++17
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/folder-sync-tool.git
+git clone https://github.com/smegasberla/sync.git
 cd folder-sync-tool
 ```
 
@@ -62,13 +62,13 @@ Run `install.ps1`:
 Run the `sync_tool` executable from any terminal session by passing the path to the source folder and the destination folder:
 
 ```bash
-sync_tool <path/to/source> <path/to/destination>
+sync <path/to/source> <path/to/destination>
 ```
 
 ### Example
 
 ```bash
-sync_tool ~/Documents/Projects /Volumes/BackupDrive/Projects
+sync ~/Documents/Projects /Volumes/BackupDrive/Projects
 ```
 
 **Output:**
