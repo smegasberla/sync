@@ -33,7 +33,7 @@ To build the tool from source, ensure you have a C++ compiler supporting **C++17
 
 ```bash
 git clone https://github.com/smegasberla/sync.git
-cd folder-sync-tool
+cd sync
 ```
 
 ### 2. Run the Installer
