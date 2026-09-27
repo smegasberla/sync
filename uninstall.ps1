@@ -1,9 +1,9 @@
-$InstallDir = "$env:LOCALAPPDATA\Programs\FolderSyncTool"
+$InstallDir = "$env:LOCALAPPDATA\Programs\FolderSync"
 $Target = "$InstallDir\sync_tool.exe"if (Test-Path $Target) {
 Remove-Item -Path $Target -Force
-Write-Host "Removed sync_tool binary." -ForegroundColor Green
+Write-Host "Removed sync binary." -ForegroundColor Green
 } else {
-Write-Host "sync_tool binary not found." -ForegroundColor Yellow
+Write-Host "sync binary not found." -ForegroundColor Yellow
 }if (Test-Path $InstallDir) {
 Remove-Item -Path $InstallDir -Recurse -Force
 }Remove directory from User PATH$UserPath = [Environment]::GetEnvironmentVariable("Path", "User")

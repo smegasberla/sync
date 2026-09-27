@@ -5,15 +5,15 @@ echo "Building Folder Sync Tool..."
 
 # Compile using C++17 standard
 
-g++ -std=c++17 -O2 main.cpp -o sync_tool
+g++ -std=c++17 -O2 src/main.cpp -o sync
 
 INSTALL_DIR="/usr/local/bin"
 
 if [ -w "$INSTALL_DIR" ]; then
-mv sync_tool "$INSTALL_DIR/sync_tool"
+mv sync "$INSTALL_DIR/sync"
 else
 echo "Elevated permissions required to install to $INSTALL_DIR."
-sudo mv sync_tool "$INSTALL_DIR/sync_tool"
+sudo mv sync "$INSTALL_DIR/sync"
 fi
 
-echo "Installation complete! You can now run 'sync_tool' from anywhere in your terminal."
+echo "Installation complete! You can now run 'sync' from anywhere in your terminal."
