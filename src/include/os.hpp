@@ -1,5 +1,15 @@
 #pragma once
 
+/*
+#if defined(_WIN32) || defined(_WIN64)
+    #include <windows.h>
+#endif
+
+#if defined(__linux__)
+    #include <unistd.h>
+#endif
+*/
+
 // Compile-time platform checks
 constexpr bool is_windows() {
 #if defined(_WIN32) || defined(_WIN64)

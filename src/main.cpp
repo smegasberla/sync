@@ -17,7 +17,7 @@ namespace fs = std::filesystem;
 // Function declarations
 void sendUsage();
 void syncFolders(const fs::path &src, const fs::path &dst);
-int parseArguments(int argc, char *argv[], std::string dst); 
+int parseArguments(int argc, char *argv[], fs::path dst); 
 
 int main(int argc, char* argv[]) {
 
@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 
 }
 
-int parseArguments(int argc, char *argv[], std::string dst) {
+int parseArguments(int argc, char *argv[], fs::path dst) {
 
     /*
     Small engine to parse eventual arguments.
@@ -94,16 +94,26 @@ int parseArguments(int argc, char *argv[], std::string dst) {
 
         if(should_compress) {
 
-            if(is_linux()) {
+            if(is_linux() || is_mac() || is_posix()) {
 
-                std::string cmd = "zip -r zipped.zip \"" + dst + "\"";
+                std::string cmd = "zip -r zipped.zip \"" + dst.string() + "\"";
                 int result = std::system(cmd.c_str());
 
                 if(result != 0) {
 
-                    std::cerr << "Failed to zip the folder!\n";
-
+                    std::cerr << "Failed to zip the folder!\n"; 
+                    
                 }
+
+            } else if(is_windows()) {
+
+
+
+            } else {
+
+                cout << "Unknown OS, could not fire ZIP operation" << endl;
+                return 1;
+
             }
 
             return 0;
