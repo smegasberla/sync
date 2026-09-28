@@ -3,7 +3,6 @@
 #include <iostream>
 #include <filesystem>
 #include <string>
-#include <vector>
 #include "include/os.hpp"
 
 // Using declarations
@@ -17,7 +16,7 @@ namespace fs = std::filesystem;
 // Function declarations
 void sendUsage();
 void syncFolders(const fs::path &src, const fs::path &dst);
-int parseArguments(int argc, char *argv[], fs::path dst); 
+int parseArguments(int argc, char *argv[], fs::path src ,fs::path dst); 
 
 int main(int argc, char* argv[]) {
 
@@ -60,41 +59,53 @@ int main(int argc, char* argv[]) {
     }
 
     // We sync the folders and return, thats it!  
-    int result = parseArguments(argc, argv, dst);
+    int result = parseArguments(argc, argv, src, dst);
     
     if(result == 0) 
         return 0;
-
-    syncFolders(src, dst);
+    else
+        syncFolders(src, dst);
+    
     return 0;
 
 }
 
-int parseArguments(int argc, char *argv[], fs::path dst) {
+int parseArguments(int argc, char *argv[], fs::path src , fs::path dst) {
 
     /*
     Small engine to parse eventual arguments.
     */
 
+    // Looping trough the arguments
     for (int i = 1; i < argc; i++) {
 
         std::string arg = argv[i];
         std::string argInit = "--";
-        bool should_compress = true;
+        bool should_compress = false;
 
+        // Finding parts in the command that start with --
         if (arg.rfind(argInit) == 0) {
 
+            // If we find compress , set --compress to true, false otherwise.
             if(strcmp(arg.c_str(), "--compress") == 0) {
 
                 should_compress =  true;
+            } else {
+
+                should_compress = false;
+
             }
 
         }
         else continue;
 
+        // If we should compress, run the compressing code using the is_os() functions defined in include/os.hpp
         if(should_compress) {
 
+            // Linux/MacOS/POSIX code
             if(is_linux() || is_mac() || is_posix()) {
+
+                syncFolders(src, dst);
 
                 std::string cmd = "zip -r zipped.zip \"" + dst.string() + "\"";
                 int result = std::system(cmd.c_str());
@@ -105,10 +116,29 @@ int parseArguments(int argc, char *argv[], fs::path dst) {
                     
                 }
 
+                cmd = "rm -rf \"" + dst.string() + "\"";
+                std::system(cmd.c_str());
+
+                return 0;
+
+            // Windows code(same as Linux/MacOS/POSIX one)
             } else if(is_windows()) {
 
+                syncFolders(src, dst);
 
+                std::string cmd = "powershell -Command \"Compress-Archive -Path '" + dst.string() + "\\*' -DestinationPath 'zipped.zip' -Force\"";
+                int result = std::system(cmd.c_str());
 
+                if(result != 0) {
+                    std::cerr << "Failed to zip the folder!\n"; 
+                }
+
+                cmd = "rmdir /s /q \"" + dst.string() + "\"";
+                std::system(cmd.c_str());
+
+                return 0;
+
+            // Else we return an error since the OS is unknown
             } else {
 
                 cout << "Unknown OS, could not fire ZIP operation" << endl;
@@ -120,7 +150,12 @@ int parseArguments(int argc, char *argv[], fs::path dst) {
         }
     }
 
-    return 0;
+    /*
+    Here returning -1
+    Without this, if we didnt have an argument, we would never have the basic functionality, is a lazy fix, but it will do for now :)
+    */
+
+    return -1;
 }
 
 void sendUsage() {

@@ -59,7 +59,7 @@ Run `install.ps1`:
 
 ## Usage
 
-Run the `sync_tool` executable from any terminal session by passing the path to the source folder and the destination folder:
+Run the `sync` executable from any terminal session by passing the path to the source folder and the destination folder:
 
 ```bash
 sync <path/to/source> <path/to/destination>
@@ -80,6 +80,26 @@ Copy is successful!
 ```
 
 ---
+
+Run the `sync` executable with `--compress` flag to compress the folder automatically.
+
+### Example
+
+```bash
+sync ~/Documents/Projects /Volumes/BackupDrive/Projects --compress
+```
+
+**Linux/MacOS Output:**
+```text
+Total Files: 1
+Copied Files: 1
+Up To Date Files: 0
+Copy is successful! 
+  adding: test/ (stored 0%)
+  adding: test/src/ (stored 0%)
+  adding: test/src/include/ (stored 0%)
+  adding: test/src/include/os.hpp (deflated 65%)
+```
 
 ## Uninstallation
 
