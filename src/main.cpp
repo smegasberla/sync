@@ -1,7 +1,10 @@
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
-#include <stdexcept>
 #include <filesystem>
-#include <fstream>
+#include <string>
+#include <vector>
+#include "include/os.hpp"
 
 // Using declarations
 using std::cout;
@@ -14,16 +17,12 @@ namespace fs = std::filesystem;
 // Function declarations
 void sendUsage();
 void syncFolders(const fs::path &src, const fs::path &dst);
+int parseArguments(int argc, char *argv[], std::string dst); 
 
 int main(int argc, char* argv[]) {
 
-    // Checking for arguments and usage 
-    if(argc != 3) {
-
+    if(argc < 3) 
         sendUsage();
-        return 1;
-
-    }
 
     /*
     Taking the first folder
@@ -48,6 +47,7 @@ int main(int argc, char* argv[]) {
     
     }
 
+
     /*
     Taking second folder
     Falling back to creating it if it doesent exist
@@ -60,9 +60,57 @@ int main(int argc, char* argv[]) {
     }
 
     // We sync the folders and return, thats it!  
+    int result = parseArguments(argc, argv, dst);
+    
+    if(result == 0) 
+        return 0;
+
     syncFolders(src, dst);
     return 0;
 
+}
+
+int parseArguments(int argc, char *argv[], std::string dst) {
+
+    /*
+    Small engine to parse eventual arguments.
+    */
+
+    for (int i = 1; i < argc; i++) {
+
+        std::string arg = argv[i];
+        std::string argInit = "--";
+        bool should_compress = true;
+
+        if (arg.rfind(argInit) == 0) {
+
+            if(strcmp(arg.c_str(), "--compress") == 0) {
+
+                should_compress =  true;
+            }
+
+        }
+        else continue;
+
+        if(should_compress) {
+
+            if(is_linux()) {
+
+                std::string cmd = "zip -r zipped.zip \"" + dst + "\"";
+                int result = std::system(cmd.c_str());
+
+                if(result != 0) {
+
+                    std::cerr << "Failed to zip the folder!\n";
+
+                }
+            }
+
+            return 0;
+        }
+    }
+
+    return 0;
 }
 
 void sendUsage() {
