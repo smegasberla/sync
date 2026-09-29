@@ -2,7 +2,7 @@
 set -e
 
 INSTALL_DIR="/usr/local/bin"
-TARGET="$INSTALL_DIR/sync"
+TARGET="$INSTALL_DIR/fsync"
 
 if [ -f "$TARGET" ]; then
 if [ -w "$INSTALL_DIR" ]; then
@@ -11,7 +11,7 @@ else
 echo "Elevated permissions required to remove $TARGET."
 sudo rm "$TARGET"
 fi
-echo "Sync binary successfully uninstalled."
+echo "Fsync binary successfully uninstalled."
 else
-echo "sync binary not found in $INSTALL_DIR."
+echo "fsync binary not found in $INSTALL_DIR."
 fi

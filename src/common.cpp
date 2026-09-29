@@ -31,6 +31,28 @@ int parseArguments(int argc, char *argv[], fs::path src , fs::path dst) {
 
             }
 
+            if(strcmp(arg.c_str(), "--help") == 0) {
+
+                params.send_help = true;
+
+            }
+            else {
+
+                params.send_help = false;
+
+            }
+
+            if(strcmp(arg.c_str(), "--version") == 0) {
+
+                params.send_version = true;
+
+            }
+            else {
+
+                params.send_version = false;
+
+            }
+
         }
         else continue;
 
@@ -38,6 +60,20 @@ int parseArguments(int argc, char *argv[], fs::path src , fs::path dst) {
         if (params.should_compress) {
 
             compress(src, dst);
+            return 0;
+        
+        }
+
+        if (params.send_help) {
+
+            sendUsage();
+            return 0;
+        
+        }
+
+        if (params.send_version) {
+
+            sendVersion();
             return 0;
         
         }
@@ -57,13 +93,37 @@ void sendUsage() {
     Simple function to send the usage on call, printing it with cout.
     Why: It would be a pain to write this all the time LOL.
     */
-    cout <<  "Wrong Usage:" << endl;
-    cout <<  "Usage: sync [path/to/folder/1] [path/to/folder/2]" << endl;
-    cout <<  "PS: Folder1 is the one that gets backuped to Folder2. Therefore Folder1 must exist and mustn't be empty" << endl;
+    cout << "========================================================\n";
+    cout << "                 Fsync help message                     \n";
+    cout << "========================================================\n\n";
+    cout << "Version: " << FSYNC_VERSION << "\n";
+    cout << "Usage:\n";
+    cout << "  sync <source_dir> <destination_dir> [options]\n\n";
+    cout << "Arguments:\n";
+    cout << "  <source_dir>        Path to the folder you want to back up.\n";
+    cout << "                      (Must exist and cannot be empty)\n";
+    cout << "  <destination_dir>   Path where files will be synchronized.\n";
+    cout << "                      (Will be created if it does not exist)\n\n";
+    cout << "Options:\n";
+    cout << "  --compress          Compresses the synchronized destination\n";
+    cout << "                      directory into 'zipped.zip' and cleans up\n";
+    cout << "                      the temporary folder afterwards.\n";
+    cout << "  --help              Display this help message and exit.\n\n";
+    cout << "Examples:\n";
+    cout << "  sync ./my_folder ./backup_folder\n";
+    cout << "  sync ./my_folder ./backup_folder --compress\n";
+    cout << "========================================================\n";
+}
+
+void sendVersion() {
+
+    cout << "Fsync version: " << endl;
+    cout << FSYNC_VERSION << "\n" << endl;
 
 }
 
-void syncFolders(const fs::path &src, const fs::path &dst) {
+
+int syncFolders(const fs::path &src, const fs::path &dst, bool execute) {
 
     /*
     Functions to sync the folders, writing it in main would bloat the code.
@@ -72,6 +132,12 @@ void syncFolders(const fs::path &src, const fs::path &dst) {
 
     int copied = 0; 
     int upToDate = 0;
+
+    if(execute == false) {
+
+        return -1;
+
+    }
 
     // Looping trough the directory of the first folder recurseverly
     for(auto &entry : fs::recursive_directory_iterator(src)) {

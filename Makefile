@@ -1,10 +1,10 @@
 # Compiler and flags
 CXX      := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -Isrc/include -Isrc/args/include
+CXXFLAGS := -std=c++17 -Wall -Wextra -Isrc/include -Isrc/args/include 
 
 # Find all .cpp files recursively in src and its subdirectories
 SRCS     := $(shell find src -type f -name "*.cpp")
-TARGET   := sync
+TARGET   := fsync
 
 # Default rule: build the executable
 all: $(TARGET)

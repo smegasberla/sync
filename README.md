@@ -1,4 +1,4 @@
-# Folder Sync Tool
+# Folder Sync Tool (Fsync)
 
 A lightweight, high-performance command-line utility written in modern C++ (`C++17`) designed to synchronize files between two directories efficiently.
 
@@ -32,25 +32,30 @@ To build the tool from source, ensure you have a C++ compiler supporting **C++17
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/smegasberla/sync.git
-cd sync
+git clone [https://github.com/smegasberla/fsync.git](https://github.com/smegasberla/fsync.git)
+cd fsync
+
 ```
 
 ### 2. Run the Installer
 
 #### On Linux / macOS
+
 Grant execution permissions and run `install.sh`:
 
 ```bash
 chmod +x install.sh uninstall.sh
 ./install.sh
+
 ```
 
 #### On Windows (PowerShell)
+
 Run `install.ps1`:
 
 ```powershell
 .\install.ps1
+
 ```
 
 > **Note:** On Windows, you may need to adjust execution permissions if script running is disabled (`Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`).
@@ -59,37 +64,43 @@ Run `install.ps1`:
 
 ## Usage
 
-Run the `sync` executable from any terminal session by passing the path to the source folder and the destination folder:
+Run the `fsync` executable from any terminal session by passing the path to the source folder and the destination folder:
 
 ```bash
-sync <path/to/source> <path/to/destination>
+fsync <path/to/source> <path/to/destination>
+
 ```
 
 ### Example
 
 ```bash
-sync ~/Documents/Projects /Volumes/BackupDrive/Projects
+fsync ~/Documents/Projects /Volumes/BackupDrive/Projects
+
 ```
 
 **Output:**
+
 ```text
 Total Files: 128
 Copied Files: 3
 Up To Date Files: 125
 Copy is successful!
+
 ```
 
 ---
 
-Run the `sync` executable with `--compress` flag to compress the folder automatically.
+Run the `fsync` executable with `--compress` flag to compress the folder automatically.
 
 ### Example
 
 ```bash
-sync ~/Documents/Projects /Volumes/BackupDrive/Projects --compress
+fsync ~/Documents/Projects /Volumes/BackupDrive/Projects --compress
+
 ```
 
 **Linux/MacOS Output:**
+
 ```text
 Total Files: 1
 Copied Files: 1
@@ -99,17 +110,20 @@ Copy is successful!
   adding: test/src/ (stored 0%)
   adding: test/src/include/ (stored 0%)
   adding: test/src/include/os.hpp (deflated 65%)
+
 ```
 
 ## Uninstallation
 
 If you wish to remove the tool and its binaries from your system PATH:
 
-- **Linux / macOS**: Run `./uninstall.sh`
-- **Windows**: Run `.\uninstall.ps1`
+* **Linux / macOS**: Run `./uninstall.sh`
+* **Windows**: Run `.\uninstall.ps1`
 
 ---
 
 ## License
 
 This project is licensed under the MIT License. Feel free to modify and distribute as needed.
+
+```

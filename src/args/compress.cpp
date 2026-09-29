@@ -9,10 +9,14 @@ using std::string;
 
 int compress(fs::path src, fs::path dst) {
 
+    /*
+    Compression logic moved to an appropriate file.
+    */
+
     // Linux/MacOS/POSIX code
     if(is_linux() || is_mac() || is_posix()) {
 
-        syncFolders(src, dst);
+        syncFolders(src, dst, true);
 
         std::string cmd = "zip -r zipped.zip \"" + dst.string() + "\"";
         int result = std::system(cmd.c_str());
@@ -31,7 +35,7 @@ int compress(fs::path src, fs::path dst) {
     // Windows code(same as Linux/MacOS/POSIX one)
     } else if(is_windows()) {
 
-        syncFolders(src, dst);
+        syncFolders(src, dst, true);
 
         std::string cmd = "powershell -Command \"Compress-Archive -Path '" + dst.string() + "\\*' -DestinationPath 'zipped.zip' -Force\"";
         int result = std::system(cmd.c_str());

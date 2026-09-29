@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
     if(result == 0) 
         return 0;
     else
-        syncFolders(src, dst);
+        syncFolders(src, dst, true);
     
     return 0;
 
