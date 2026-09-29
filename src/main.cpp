@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <string>
 #include "include/os.hpp"
-#include "common.cpp"
+#include "include/common.hpp"
 
 // Using declarations
 using std::cout;
