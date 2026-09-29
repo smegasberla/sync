@@ -1,9 +1,9 @@
 # Compiler and flags
 CXX      := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra
+CXXFLAGS := -std=c++17 -Wall -Wextra -Isrc/include -Isrc/args/include
 
-# Source files and executable name
-SRCS     := src/main.cpp src/common.cpp
+# Find all .cpp files recursively in src and its subdirectories
+SRCS     := $(shell find src -type f -name "*.cpp")
 TARGET   := sync
 
 # Default rule: build the executable

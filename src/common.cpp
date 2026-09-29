@@ -1,5 +1,5 @@
 #include "include/common.hpp"
-
+#include "args/include/compress.hpp"
 
 using std::cout;
 using std::endl;
@@ -35,53 +35,11 @@ int parseArguments(int argc, char *argv[], fs::path src , fs::path dst) {
         else continue;
 
         // If we should compress, run the compressing code using the is_os() functions defined in include/os.hpp
-        if(params.should_compress) {
+        if (params.should_compress) {
 
-            // Linux/MacOS/POSIX code
-            if(is_linux() || is_mac() || is_posix()) {
-
-                syncFolders(src, dst);
-
-                std::string cmd = "zip -r zipped.zip \"" + dst.string() + "\"";
-                int result = std::system(cmd.c_str());
-
-                if(result != 0) {
-
-                    std::cerr << "Failed to zip the folder!\n"; 
-                    
-                }
-
-                cmd = "rm -rf \"" + dst.string() + "\"";
-                std::system(cmd.c_str());
-
-                return 0;
-
-            // Windows code(same as Linux/MacOS/POSIX one)
-            } else if(is_windows()) {
-
-                syncFolders(src, dst);
-
-                std::string cmd = "powershell -Command \"Compress-Archive -Path '" + dst.string() + "\\*' -DestinationPath 'zipped.zip' -Force\"";
-                int result = std::system(cmd.c_str());
-
-                if(result != 0) {
-                    std::cerr << "Failed to zip the folder!\n"; 
-                }
-
-                cmd = "rmdir /s /q \"" + dst.string() + "\"";
-                std::system(cmd.c_str());
-
-                return 0;
-
-            // Else we return an error since the OS is unknown
-            } else {
-
-                cout << "Unknown OS, could not fire ZIP operation" << endl;
-                return 1;
-
-            }
-
+            compress(src, dst);
             return 0;
+        
         }
     }
 
