@@ -1,11 +1,14 @@
 #include "include/common.hpp"
 #include "args/include/compress.hpp"
+#include <optional>
+#include <iostream>
+
 
 using std::cout;
 using std::endl;
 using std::string;
 
-int parseArguments(int argc, char *argv[], fs::path src , fs::path dst) {
+int parseArguments(int argc, char *argv[], std::optional<fs::path> src, std::optional<fs::path> dst) {
 
     /*
     Small engine to parse eventual arguments.
@@ -25,20 +28,11 @@ int parseArguments(int argc, char *argv[], fs::path src , fs::path dst) {
             if(strcmp(arg.c_str(), "--compress") == 0) {
 
                 params.should_compress = true;
-            } else {
-
-                params.should_compress = false;
-
             }
 
             if(strcmp(arg.c_str(), "--help") == 0) {
 
                 params.send_help = true;
-
-            }
-            else {
-
-                params.send_help = false;
 
             }
 
@@ -47,36 +41,36 @@ int parseArguments(int argc, char *argv[], fs::path src , fs::path dst) {
                 params.send_version = true;
 
             }
-            else {
-
-                params.send_version = false;
-
-            }
 
         }
         else continue;
+    }
 
-        // If we should compress, run the compressing code using the is_os() functions defined in include/os.hpp
-        if (params.should_compress) {
+    // Handle flags in order of priority
+    if (params.send_help) {
 
-            compress(src, dst);
+        sendUsage();
+        return 0;
+
+    }
+
+    if (params.send_version) {
+
+        sendVersion();
+        return 0;
+
+    }
+
+    // If we should compress, run the compressing code using the is_os() functions defined in include/os.hpp
+    if (params.should_compress) {
+
+        if(src.has_value() && dst.has_value()) {
+
+            compress(src.value(), dst.value());
             return 0;
-        
-        }
 
-        if (params.send_help) {
+        } else return -2;
 
-            sendUsage();
-            return 0;
-        
-        }
-
-        if (params.send_version) {
-
-            sendVersion();
-            return 0;
-        
-        }
     }
 
     /*
@@ -98,7 +92,7 @@ void sendUsage() {
     cout << "========================================================\n\n";
     cout << "Version: " << FSYNC_VERSION << "\n";
     cout << "Usage:\n";
-    cout << "  sync <source_dir> <destination_dir> [options]\n\n";
+    cout << "  fsync <source_dir> <destination_dir> [options]\n\n";
     cout << "Arguments:\n";
     cout << "  <source_dir>        Path to the folder you want to back up.\n";
     cout << "                      (Must exist and cannot be empty)\n";
@@ -110,20 +104,20 @@ void sendUsage() {
     cout << "                      the temporary folder afterwards.\n";
     cout << "  --help              Display this help message and exit.\n\n";
     cout << "Examples:\n";
-    cout << "  sync ./my_folder ./backup_folder\n";
-    cout << "  sync ./my_folder ./backup_folder --compress\n";
+    cout << "  fsync ./my_folder ./backup_folder\n";
+    cout << "  fsync ./my_folder ./backup_folder --compress\n";
     cout << "========================================================\n";
 }
 
 void sendVersion() {
 
     cout << "Fsync version: " << endl;
-    cout << FSYNC_VERSION << "\n" << endl;
+    cout << FSYNC_VERSION << endl;
 
 }
 
 
-int syncFolders(const fs::path &src, const fs::path &dst, bool execute) {
+int syncFolders(const fs::path src, const fs::path dst, bool execute) {
 
     /*
     Functions to sync the folders, writing it in main would bloat the code.
@@ -133,7 +127,16 @@ int syncFolders(const fs::path &src, const fs::path &dst, bool execute) {
     int copied = 0; 
     int upToDate = 0;
 
+    std::string srcStr = src.string();
+    std::string dstStr = dst.string();
+    
     if(execute == false) {
+
+        return -1;
+
+    }
+
+    if (srcStr.rfind("--") == 0 || dstStr.rfind("--") == 0) {
 
         return -1;
 

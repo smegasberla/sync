@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <filesystem>
@@ -16,8 +15,17 @@ namespace fs = std::filesystem;
 
 int main(int argc, char* argv[]) {
 
+    if (argc >= 2) {
+        std::string firstArg = argv[1];
+        if (firstArg == "--help" || firstArg == "--version") {
+            parseArguments(argc, argv, std::nullopt, std::nullopt);
+            return 0; 
+        }
+    }
+
     if(argc < 3) 
         sendUsage();
+        return 2;
 
     /*
     Taking the first folder
