@@ -78,7 +78,7 @@ fsync ~/Documents/Projects /Volumes/BackupDrive/Projects
 
 ```
 
-**Output:**
+**Example Output:**
 
 ```text
 Total Files: 128
@@ -98,7 +98,7 @@ fsync ~/Documents/Projects /Volumes/BackupDrive/Projects --compress
 
 ```
 
-**Linux/MacOS Output:**
+**Linux/MacOS Example Output:**
 
 ```text
 Total Files: 1
