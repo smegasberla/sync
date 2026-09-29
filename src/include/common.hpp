@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 
-std::string const FSYNC_VERSION = "1.0.1";
+std::string const FSYNC_VERSION = "1.0.2";
 
 namespace fs = std::filesystem;
 

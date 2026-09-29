@@ -85,7 +85,6 @@ Total Files: 128
 Copied Files: 3
 Up To Date Files: 125
 Copy is successful!
-
 ```
 
 ---
@@ -110,7 +109,6 @@ Copy is successful!
   adding: test/src/ (stored 0%)
   adding: test/src/include/ (stored 0%)
   adding: test/src/include/os.hpp (deflated 65%)
-
 ```
 
 ## Uninstallation
@@ -125,5 +123,3 @@ If you wish to remove the tool and its binaries from your system PATH:
 ## License
 
 This project is licensed under the MIT License. Feel free to modify and distribute as needed.
-
-```

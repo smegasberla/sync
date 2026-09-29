@@ -23,10 +23,12 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    if(argc < 3) 
+    if(argc < 3) {
+
         sendUsage();
         return 2;
 
+    }
     /*
     Taking the first folder
     We first check if it exists and if it is a directory, we throw an error and return otherwhise
